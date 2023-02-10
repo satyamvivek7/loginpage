@@ -17,7 +17,7 @@ form.addEventListener("submit", (e) => {
   }
 
   if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
-    error.innerHTML = "emp_id should not contain special characters";
+    error.innerHTML = "username should not contain special characters";
     return;
   }
 
