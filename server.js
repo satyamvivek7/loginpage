@@ -1,25 +1,19 @@
 const express = require("express");
 const app = express();
+const db = require('./db')
 const bodyParser=require('body-parser');
 const encoder=bodyParser.urlencoded();
 const mariadb = require("mariadb");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 
-const con = mariadb.createConnection({
-  host: 'souliot.mariadb.database.azure.com',
-  user: 'okcliot@souliot',
-  password: 'Siva@123',
-  database: 'okcldb',
-  
-});
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
+// con.connect(function(err) {
+//   if (err) throw err;
+//   console.log("Connected!");
+// });
 
 // const pool = mariadb.createPool({
 //      host: 'souliot.mariadb.database.azure.com', 
@@ -68,13 +62,30 @@ app.get("/",function(req,res){
 //       [username, user_password]
 //     );
 
-app.post("/",encoder,function(req,res){
-var username=req.body.username;
-var user_password=req.body.user_password;
-con.query("select * from user_data where username=? and user_password=?",[username,user_password],
-function(err,results,fields){
+// app.post("/",encoder,function(req,res){
+// var username=req.body.username;
+// var user_password=req.body.user_password;
+// con.query("select * from user_data where username=? and user_password=?",[username,user_password],
+// function(err,results,fields){
 
-     if(results.length>0){
+//      if(results.length>0){
+//         res.redirect("/welcome");
+//         }
+//         else{
+//             res.redirect("/");      
+//         }
+//         res.end();
+//     
+//     })
+// })
+
+app.post('/', async (req, res) => {
+    // let task = req.body;
+    var username=req.body.username;
+    var user_password=req.body.user_password;
+        const result = await db.pool.query("select * from user_data where username=? and user_password=?",[username,user_password],
+        function(err,results,fields){
+        if(results.length>0){
         res.redirect("/welcome");
         }
         else{
@@ -106,7 +117,7 @@ function(err,results,fields){
 //     console.log(err);
 //   });
  
-)
+
 
 app.get("/welcome",function(req,res){
     res.sendFile(__dirname + "/welcome.html");
