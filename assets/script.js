@@ -26,3 +26,9 @@ form.addEventListener("submit", (e) => {
   error.innerHTML = "";
 });
 
+// document.querySelector("#data").addEventListener('click', (e) => {
+//   e.preventDefault()
+//   fetch('http://localhost:1200/data')
+//     .then(res => res.json())
+//     .then(data => console.log(data))
+// })
